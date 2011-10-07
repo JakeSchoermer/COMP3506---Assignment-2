@@ -29,14 +29,14 @@ public class A2App {
 					// indicates)
 		int W = -1; // limit width of consensus/alignment (default is N * 2 - 1
 					// where N is the length of sequence)
-		boolean reverse = false;// use reverse complement
+		boolean reverse = false; // use reverse complement
 
 		// parse the parameters
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].charAt(0) == '-') // option
 			{
 				switch (args[i].charAt(1)) {
-				case 'f':
+                case 'f':
 					if (i + 1 < args.length)
 						file = args[++i];
 					break;

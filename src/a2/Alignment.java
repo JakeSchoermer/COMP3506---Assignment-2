@@ -1,6 +1,8 @@
 package a2;
 
 
+import java.util.Arrays;
+
 public class Alignment {
 
 	private final PerfMeter perf; // monitor of performance
@@ -92,7 +94,7 @@ public class Alignment {
 	 */
 	public int[] getConsensus(int[][] profile) {
 		int[] sym = new int[W];
-		// Problem 1: Your code here
+		// Problem 2: Your code here
 		// ...
 		return sym;
 	}
@@ -106,9 +108,26 @@ public class Alignment {
 	 * @return the profile
 	 */
 	public int[][] getProfile(int[] s) {
-		int[][] profile = new int[Sequence.alpha.length][W];
+		int[][] profile = new int[Sequence.alpha.length*2+1][W]; //4, 2 * N - 1
 		// Problem 1: Your code here
-		// ...
+        System.out.println(Arrays.toString(s));
+        //System.out.println(Arrays.deepToString(dna));
+        //System.out.println("N: "+getN());
+
+
+        for (int i = 0; i<dna.length;i++) {
+            for (int j=0; j<dna[i].getLength();j++) {
+                int a = dna[i].getSymbolIndex(j, true);
+                System.out.println(a);
+                profile[i][j+s[i]] = dna[i].getSymbolIndex(j,true)+1;
+
+            }
+            System.out.println("====================");
+        }
+
+        System.out.println("\nFinal Profile Output");
+        System.out.println(Arrays.deepToString(profile));
+
 		return profile;
 	}
 
@@ -123,7 +142,7 @@ public class Alignment {
 	 */
 	public int getScore(int[][] profile, int[] consensus) {
 		int score = 0;
-		// Problem 1: Your code here
+		// Problem 3: Your code here
 		// ...
 		return score;
 	}
