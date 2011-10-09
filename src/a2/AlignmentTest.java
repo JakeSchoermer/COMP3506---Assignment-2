@@ -71,18 +71,18 @@ public class AlignmentTest {
 		assertEquals(3, profile[2][5]); // G pos 5
 		assertEquals(0, profile[3][6]); // T pos 6
 	}
-//
-//	@Test
-//	public void testGetScore() {
-//		int[][] profile = {
-//		/* A */{ 2, 0, 0, 0, 9, 0, 0, 0, 0 },
-//		/* C */{ 1, 1, 1, 1, 0, 4, 0, 0, 0 },
-//		/* G */{ 1, 2, 0, 2, 0, 0, 0, 0, 0 },
-//		/* T */{ 1, 0, 0, 3, 0, 0, 5, 0, 0 } };
-//		int[] consens = { 1, 3, 2, 4, 1, 2, 4, 3, 4 };
-//		int sc = testme1.getScore(profile, consens);
-//		assertEquals(2 + 2 + 1 + 3 + 9 + 4 + 5, sc);
-//	}
+
+	@Test
+	public void testGetScore() {
+		int[][] profile = {
+		/* A */{ 2, 0, 0, 0, 9, 0, 0, 0, 0 },
+		/* C */{ 1, 1, 1, 1, 0, 4, 0, 0, 0 },
+		/* G */{ 1, 2, 0, 2, 0, 0, 0, 0, 0 },
+		/* T */{ 1, 0, 0, 3, 0, 0, 5, 0, 0 } };
+		int[] consens = { 1, 3, 2, 4, 1, 2, 4, 3, 4 };
+		int sc = testme1.getScore(profile, consens);
+		assertEquals(2 + 2 + 1 + 3 + 9 + 4 + 5, sc);
+	}
 
 	/* Part B tests below */
 

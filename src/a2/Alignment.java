@@ -102,15 +102,12 @@ public class Alignment {
                     sym[j] = a+1;
                 }
                 else {
-                    System.out.println(sym[j]-1);
                     if (profile[a][j] > profile[a-1][j]) {
                         sym[j] = a+1;
                     }
                 }
             }
         }
-
-
 		return sym;
 	}
 
@@ -154,7 +151,9 @@ public class Alignment {
 	public int getScore(int[][] profile, int[] consensus) {
 		int score = 0;
 		// Problem 3: Your code here
-		// ...
+        for (int j = 0; j<profile[0].length;j++) {
+            score += profile[consensus[j]-1][j];
+        }
 		return score;
 	}
 
