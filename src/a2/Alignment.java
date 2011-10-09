@@ -110,12 +110,9 @@ public class Alignment {
 	public int[][] getProfile(int[] s) {
 		int[][] profile = new int[Sequence.alpha.length][W]; //4, 2 * N - 1
 		//Problem 1: Your code here
-        //System.out.println(Arrays.toString(s));
-        System.out.println(W+" "+dna.length);
-        //char temp = dna[0].getSymbolChar(0,true);
-        //System.out.println(profile[0].length);
 
         char nucleotide;
+        int nucleotideIdx;
 
         for (int i = 0; i<dna.length; i++) {
 
@@ -123,15 +120,11 @@ public class Alignment {
                 int offset = s[i];
                 if (j-offset >= 0 && j-offset < this.getN()) {
                     nucleotide = dna[i].getSymbolChar(j - offset, true);
-
+                    nucleotideIdx = dna[i].getSymbolIndex(j - offset, true);
+                    profile[nucleotideIdx-1][j] +=1;
                 }
             }
-            System.out.println("====================   " + i);
         }
-
-        System.out.println("\nFinal Profile Output");
-        System.out.println(Arrays.deepToString(profile));
-
 		return profile;
 	}
 
