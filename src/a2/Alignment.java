@@ -96,6 +96,26 @@ public class Alignment {
 		int[] sym = new int[W];
 		// Problem 2: Your code here
 
+        System.out.println(profile[0].length+ " "+profile.length);
+
+        for (int j=0; j <profile[0].length; j++) {  //Column
+            for (int a=0; a<profile.length; a++) {   //Letter
+                if (a == 0) {
+                    sym[j] = a+1;
+                }
+                else {
+                    System.out.println(sym[j]-1);
+                    if (profile[a][j] > profile[a-1][j]) {
+                        System.out.println("pass");
+                        sym[j] = a+1;
+                    }
+                }
+            }
+            System.out.println("=================");
+        }
+
+        System.out.println(Arrays.toString(sym));
+
 		return sym;
 	}
 
@@ -115,7 +135,6 @@ public class Alignment {
         int nucleotideIdx;
 
         for (int i = 0; i<dna.length; i++) {
-
             for (int j=0; j<W;j++) {
                 int offset = s[i];
                 if (j-offset >= 0 && j-offset < this.getN()) {

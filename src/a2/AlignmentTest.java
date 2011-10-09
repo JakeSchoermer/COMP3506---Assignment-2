@@ -40,20 +40,20 @@ public class AlignmentTest {
 
 	/* Part A tests below */
 
-//	@Test
-//	public void testGetConsensus() {
-//		int[][] profile = {
-//		/* A */{ 2, 0, 0, 0, 9, 0, 2, 2, 0 },
-//		/* C */{ 1, 1, 1, 1, 0, 0, 2, 2, 0 },
-//		/* G */{ 1, 2, 0, 2, 0, 0, 2, 2, 0 },
-//		/* T */{ 1, 0, 0, 3, 0, 0, 2, 2, 0 } };
-//		int[] c = testme1.getConsensus(profile);
-//		assertEquals(1, c[0]);
-//		assertEquals(3, c[1]);
-//		assertEquals(2, c[2]);
-//		assertEquals(4, c[3]);
-//		assertEquals(1, c[4]);
-//	}
+	@Test
+	public void testGetConsensus() {
+		int[][] profile = {
+		/* A */{ 2, 0, 0, 0, 9, 0, 2, 2, 0 },
+		/* C */{ 1, 1, 1, 1, 0, 0, 2, 2, 0 },
+		/* G */{ 1, 2, 0, 2, 0, 0, 2, 2, 0 },
+		/* T */{ 1, 0, 0, 3, 0, 0, 2, 2, 0 }};
+		int[] c = testme1.getConsensus(profile);
+		assertEquals(1, c[0]);
+		assertEquals(3, c[1]);
+		assertEquals(2, c[2]);
+		assertEquals(4, c[3]);
+		assertEquals(1, c[4]);
+	}
 
 	@Test
 	public void testGetProfile() {
