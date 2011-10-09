@@ -71,7 +71,7 @@ public class AlignmentTest {
 		assertEquals(3, profile[2][5]); // G pos 5
 		assertEquals(0, profile[3][6]); // T pos 6
 	}
-
+//
 //	@Test
 //	public void testGetScore() {
 //		int[][] profile = {
