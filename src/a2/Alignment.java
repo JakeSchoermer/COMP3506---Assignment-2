@@ -13,6 +13,8 @@ public class Alignment {
 	private boolean reverse = false;// whether the reverse strand should be
 									// considered
 
+    private int currentBest = 0;
+
 	/**
 	 * Construct an alignment from a list of DNA sequences.
 	 * 
@@ -180,16 +182,53 @@ public class Alignment {
 		return s_copies;
 	}
 
-	/**
+    /**
+     * Implement Branch-and-Bound for AlignmentScore
+     *
+     * @param current
+     *      the current score at this point in the findAlignment process.
+     *
+     * @param level
+     *      the current level in the tree
+     *
+     * @param s
+     *      the set of offsets
+     *
+     * @param bestScoreSoFar
+     *      the bestScore possible from what we have analysed so far
+     *
+     *
+     * @return true if we think we can get a better comparison, else return false
+     */
+
+    private boolean chanceOfImproving(AlignmentScore current, int level, int[] s, int bestScoreSoFar) {
+        int length = 0;
+
+        for (int i = 0; i<s.length; i ++) {
+            if (s[i] < -1)
+                length++;
+        }
+        if (current.actual + length < bestScoreSoFar) {
+            System.out.println("false");
+            return false;
+        }
+        return true;
+    }
+
+    /**
 	 * Search for the optimal alignment.
-	 * 
+	 *
 	 * @param s
 	 *            the offset indices for the proposed and possibly partial
 	 *            alignment
 	 * @return the best as far as we know or null
 	 */
-	public AlignmentScore findAlignment(int[] s) {
-		perf.countFind(); // ********DO NOT REMOVE********//
+
+    public AlignmentScore findAlignment(int[] s) {
+
+        System.out.println(Arrays.toString(s));
+
+        perf.countFind(); // ********DO NOT REMOVE********//
 
 		int level = getLevel(s); 	// Will be 0 first call when the s[0] == -1
 									// before any offsets have been set for ANY
@@ -203,18 +242,22 @@ public class Alignment {
 		int score = getScore(profile, maxsym);
 		AlignmentScore current = new AlignmentScore(score, s);
 
+        if (score > this.currentBest) {
+            this.currentBest = score;
+        }
+
 		if (level == s.length) { // At leaf node
 			perf.countLeaf(); // ********DO NOT REMOVE********//
 			return current;
 		}
 
 		// Make assessment of how good things can be, from here on,
-		// because if there's no chance of it improving on an optimistic estimate... 
+		// because if there's no chance of it improving on an optimistic estimate...
 		// then we give up.
-		boolean chance_of_improving = true;
-		if (!chance_of_improving) {
+
+		if (!chanceOfImproving(current, level, s, score)) {
 			perf.countBreak(); // ********DO NOT REMOVE********//
-			return null;
+            return null;
 		}
 
 		// Generate all child nodes.

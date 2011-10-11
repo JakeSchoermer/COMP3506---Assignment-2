@@ -2,6 +2,7 @@ package a2;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.Test;
@@ -86,27 +87,29 @@ public class AlignmentTest {
 
 	/* Part B tests below */
 
-//	@Test
-//	public void testFindAlignment1() {
-//		int[] s = new int[cs5x3.length];
-//		for (int i = 0; i < s.length; i++)
-//			s[i] = -1;
-//		Alignment.AlignmentScore score = testme3.findAlignment(s);
-//		// AAG-- 3
-//		// --GCC 3
-//		// -CGC- 2
-//		// -AGC- 3
-//		// --GCT 2
-//		assertEquals(13, score.actual);
-//		score = testme4.findAlignment(s);
-//		// AAG-- 3
-//		// --GCC 3
-//		// -CGC- 2
-//		// -AGC- 3
-//		// -AGC- 3 [reverse strand]
-//		assertEquals(14, score.actual);
-//	}
-//
+	@Test
+	public void testFindAlignment1() {
+		int[] s = new int[cs5x3.length];
+        System.out.println("S: "+ Arrays.toString(s));
+		for (int i = 0; i < s.length; i++)
+			s[i] = -1;
+        System.out.println("S: "+ Arrays.toString(s));
+		Alignment.AlignmentScore score = testme3.findAlignment(s);
+		// AAG-- 3
+		// --GCC 3
+		// -CGC- 2
+		// -AGC- 3
+		// --GCT 2
+		assertEquals(13, score.actual);
+		score = testme4.findAlignment(s);
+		// AAG-- 3
+		// --GCC 3
+		// -CGC- 2
+		// -AGC- 3
+		// -AGC- 3 [reverse strand]
+		assertEquals(14, score.actual);
+	}
+
 //	@Test
 //	public void testFindAlignment2() {
 //		int[] s = new int[cs5x10.length];
