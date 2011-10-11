@@ -90,10 +90,8 @@ public class AlignmentTest {
 	@Test
 	public void testFindAlignment1() {
 		int[] s = new int[cs5x3.length];
-        System.out.println("S: "+ Arrays.toString(s));
 		for (int i = 0; i < s.length; i++)
 			s[i] = -1;
-        System.out.println("S: "+ Arrays.toString(s));
 		Alignment.AlignmentScore score = testme3.findAlignment(s);
 		// AAG-- 3
 		// --GCC 3

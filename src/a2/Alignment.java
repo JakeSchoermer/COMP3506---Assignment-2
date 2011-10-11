@@ -188,28 +188,15 @@ public class Alignment {
      * @param current
      *      the current score at this point in the findAlignment process.
      *
-     * @param level
-     *      the current level in the tree
-     *
-     * @param s
-     *      the set of offsets
-     *
-     * @param bestScoreSoFar
-     *      the bestScore possible from what we have analysed so far
+     * @param length
+     *      the the length of the next node in the tree.
      *
      *
      * @return true if we think we can get a better comparison, else return false
      */
 
-    private boolean chanceOfImproving(AlignmentScore current, int level, int[] s, int bestScoreSoFar) {
-        int length = 0;
-
-        for (int i = 0; i<s.length; i ++) {
-            if (s[i] < -1)
-                length++;
-        }
-        if (current.actual + length < bestScoreSoFar) {
-            System.out.println("false");
+    private boolean chanceOfImproving(AlignmentScore current, int length) {
+        if (current.actual + length < this.currentBest) {
             return false;
         }
         return true;
@@ -225,9 +212,6 @@ public class Alignment {
 	 */
 
     public AlignmentScore findAlignment(int[] s) {
-
-        System.out.println(Arrays.toString(s));
-
         perf.countFind(); // ********DO NOT REMOVE********//
 
 		int level = getLevel(s); 	// Will be 0 first call when the s[0] == -1
@@ -255,7 +239,9 @@ public class Alignment {
 		// because if there's no chance of it improving on an optimistic estimate...
 		// then we give up.
 
-		if (!chanceOfImproving(current, level, s, score)) {
+        int length = (N*(s.length - level));
+
+		if (!chanceOfImproving(current, length)) {
 			perf.countBreak(); // ********DO NOT REMOVE********//
             return null;
 		}
