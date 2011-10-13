@@ -108,77 +108,77 @@ public class AlignmentTest {
 		assertEquals(14, score.actual);
 	}
 
-//	@Test
-//	public void testFindAlignment2() {
-//		int[] s = new int[cs5x10.length];
-//		for (int i = 0; i < s.length; i++)
-//			s[i] = -1;
-//		Alignment.AlignmentScore score = testme5.findAlignment(s);
-//		//---------GCGCGCGAAG
-//		//------GCCGGGCGCG---
-//		//---AACGCAGCGC------
-//		//ATTAGCAAAA---------
-//		//TTTTGCTAAG---------
-//		assertEquals(40, score.actual);
-//		score = testme6.findAlignment(s);
-//		//-GCGCGCGAAG--------
-//		//CGCGCCCGGC---------
-//		//---GCGCTGCGTT------
-//		//---------ATTAGCAAAA
-//		//---------CTTAGCAAAA
-//		assertEquals(42, score.actual);
-//	}
-//
-//	public static int[] allocateStartState(int n) {
-//		int[] s = new int[n];
-//		for (int i = 0; i < n; i ++)
-//			s[i] = -1;
-//		return s;
-//	}
-//
-//	@Test
-//	/**
-//	 * Test on combinations of random sequences. Both original and reverse strand.
-//	 * Compare scores with those of Consensus (consensus scores should be equivalent).
-//	 * Note that this test takes a long time for larger values of n (>7) and t (>7).
-//	 */
-//	public void testFindAlignmentVsConsensus() {
-//		char[] chars = {'A','C','G','T'};
-//		Alignment aln_orig, aln_rev;
-//		Consensus cons_orig, cons_rev;
-//		Random rand = new Random();
-//		for (int n = 2; n < 7; n ++) { // test different sequence widths
-//			for (int t = 2; t < 7; t ++) { // test different sequence numbers
-//				// System.out.println("====== Test n="+n+" t="+t+" ======");
-//				Sequence[] dna4 = new Sequence[t];
-//				for (int i = 0; i < t; i ++) {
-//					StringBuffer sb = new StringBuffer();
-//					for (int j = 0; j < n; j ++)
-//						sb.append(chars[rand.nextInt(4)]);
-//					dna4[i] = new Sequence("S"+i, sb.toString().toCharArray());
-//				}
-//				PerfMeter pm_aln_orig  = new PerfMeter();
-//				PerfMeter pm_aln_rev   = new PerfMeter();
-//				PerfMeter pm_cons_orig = new PerfMeter();
-//				PerfMeter pm_cons_rev  = new PerfMeter();
-//				int W = 2 * n - 1;
-//				aln_orig  = new Alignment(pm_aln_orig,  dna4, false, 0);
-//				aln_rev   = new Alignment(pm_aln_rev,   dna4, true,  0);
-//				cons_orig = new Consensus(pm_cons_orig, dna4, false, 0);
-//				cons_rev  = new Consensus(pm_cons_rev,  dna4, true,  0);
-//
-//				Alignment.AlignmentScore sc_aln_orig = aln_orig.findAlignment(allocateStartState(t));
-//				// A2App.printAlignment(sc_aln_orig.path, dna4, W);
-//				Consensus.ConsensusScore sc_cons_orig = cons_orig.findConsensus(allocateStartState(W), 0);
-//				// A2App.printAlignment(cons_orig.getAlignment(sc_cons_orig.path), dna4, W);
-//				assertEquals(sc_cons_orig.actual, sc_aln_orig.actual);
-//
-//				Alignment.AlignmentScore sc_aln_rev = aln_rev.findAlignment(allocateStartState(t));
-//				// A2App.printAlignment(sc_aln_rev.path, dna4, W);
-//				Consensus.ConsensusScore sc_cons_rev = cons_rev.findConsensus(allocateStartState(W), 0);
-//				// A2App.printAlignment(cons_rev.getAlignment(sc_cons_rev.path), dna4, W);
-//				assertEquals(sc_cons_rev.actual, sc_aln_rev.actual);
-//			}
-//		}
-//	}
+	@Test
+	public void testFindAlignment2() {
+		int[] s = new int[cs5x10.length];
+		for (int i = 0; i < s.length; i++)
+			s[i] = -1;
+		Alignment.AlignmentScore score = testme5.findAlignment(s);
+		//---------GCGCGCGAAG
+		//------GCCGGGCGCG---
+		//---AACGCAGCGC------
+		//ATTAGCAAAA---------
+		//TTTTGCTAAG---------
+		assertEquals(40, score.actual);
+		score = testme6.findAlignment(s);
+		//-GCGCGCGAAG--------
+		//CGCGCCCGGC---------
+		//---GCGCTGCGTT------
+		//---------ATTAGCAAAA
+		//---------CTTAGCAAAA
+		assertEquals(42, score.actual);
+	}
+
+	public static int[] allocateStartState(int n) {
+		int[] s = new int[n];
+		for (int i = 0; i < n; i ++)
+			s[i] = -1;
+		return s;
+	}
+
+	@Test
+	/**
+	 * Test on combinations of random sequences. Both original and reverse strand.
+	 * Compare scores with those of Consensus (consensus scores should be equivalent).
+	 * Note that this test takes a long time for larger values of n (>7) and t (>7).
+	 */
+	public void testFindAlignmentVsConsensus() {
+		char[] chars = {'A','C','G','T'};
+		Alignment aln_orig, aln_rev;
+		Consensus cons_orig, cons_rev;
+		Random rand = new Random();
+		for (int n = 2; n < 7; n ++) { // test different sequence widths
+			for (int t = 2; t < 7; t ++) { // test different sequence numbers
+				// System.out.println("====== Test n="+n+" t="+t+" ======");
+				Sequence[] dna4 = new Sequence[t];
+				for (int i = 0; i < t; i ++) {
+					StringBuffer sb = new StringBuffer();
+					for (int j = 0; j < n; j ++)
+						sb.append(chars[rand.nextInt(4)]);
+					dna4[i] = new Sequence("S"+i, sb.toString().toCharArray());
+				}
+				PerfMeter pm_aln_orig  = new PerfMeter();
+				PerfMeter pm_aln_rev   = new PerfMeter();
+				PerfMeter pm_cons_orig = new PerfMeter();
+				PerfMeter pm_cons_rev  = new PerfMeter();
+				int W = 2 * n - 1;
+				aln_orig  = new Alignment(pm_aln_orig,  dna4, false, 0);
+				aln_rev   = new Alignment(pm_aln_rev,   dna4, true,  0);
+				cons_orig = new Consensus(pm_cons_orig, dna4, false, 0);
+				cons_rev  = new Consensus(pm_cons_rev,  dna4, true,  0);
+
+				Alignment.AlignmentScore sc_aln_orig = aln_orig.findAlignment(allocateStartState(t));
+				// A2App.printAlignment(sc_aln_orig.path, dna4, W);
+				Consensus.ConsensusScore sc_cons_orig = cons_orig.findConsensus(allocateStartState(W), 0);
+				// A2App.printAlignment(cons_orig.getAlignment(sc_cons_orig.path), dna4, W);
+				assertEquals(sc_cons_orig.actual, sc_aln_orig.actual);
+
+				Alignment.AlignmentScore sc_aln_rev = aln_rev.findAlignment(allocateStartState(t));
+				// A2App.printAlignment(sc_aln_rev.path, dna4, W);
+				Consensus.ConsensusScore sc_cons_rev = cons_rev.findConsensus(allocateStartState(W), 0);
+				// A2App.printAlignment(cons_rev.getAlignment(sc_cons_rev.path), dna4, W);
+				assertEquals(sc_cons_rev.actual, sc_aln_rev.actual);
+			}
+		}
+	}
 }

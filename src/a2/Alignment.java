@@ -95,7 +95,9 @@ public class Alignment {
 	 * @return an array with symbol indices, identifying the consensus
 	 */
 	public int[] getConsensus(int[][] profile) {
-		int[] sym = new int[W];
+
+
+        int[] sym = new int[W];
 		// Problem 2: Your code here
 
         for (int j=0; j <profile[0].length; j++) {  //Column
@@ -128,16 +130,24 @@ public class Alignment {
         char nucleotide;
         int nucleotideIdx;
 
-        for (int i = 0; i<dna.length; i++) {
-            for (int j=0; j<W;j++) {
-                int offset = s[i];
-                if (j-offset >= 0 && j-offset < this.getN()) {
-                    nucleotide = dna[i].getSymbolChar(j - offset, true);
-                    nucleotideIdx = dna[i].getSymbolIndex(j - offset, true);
-                    profile[nucleotideIdx-1][j] +=1;
+        //if (!this.reverse) {
+           //System.out.println("Normal Sequence");
+            for (int i = 0; i<dna.length; i++) {
+                for (int j=0; j<W;j++) {
+                    int offset = s[i];
+                    if (j-offset >= 0 && j-offset < this.getN()) {
+                        nucleotide = dna[i].getSymbolChar(j - offset, true);
+                        nucleotideIdx = dna[i].getSymbolIndex(j - offset, true);
+                        profile[nucleotideIdx-1][j] +=1;
+                    }
                 }
             }
-        }
+        //}
+
+        //else {
+        //    System.out.println("Reverse Sequence");
+        //}
+
 		return profile;
 	}
 
@@ -171,15 +181,34 @@ public class Alignment {
 	 */
 	public int[][] expand(int[] s) {
 		int level = getLevel(s);
-		if (level == s.length)
-			return null;
-		int[][] s_copies = new int[(W - N + 1)][s.length];
-		for (int i = 0; i < W - N + 1; i++) { // we can shift pattern this far
-			for (int j = 0; j < s.length; j ++)
-				s_copies[i][j] = s[j];
-			s_copies[i][level] = i;
-		}
-		return s_copies;
+
+		if (level == s.length) {
+            return null;
+        }
+        else if (!this.reverse) {
+            //System.out.println("NOT this.reverse");
+            int[][] s_copies = new int[(W - N + 1)][s.length];
+		    for (int i = 0; i < W - N + 1; i++) { // we can shift pattern this far
+                for (int j = 0; j < s.length; j ++)
+                    s_copies[i][j] = s[j];
+                s_copies[i][level] = i;
+            }
+            return s_copies;
+        }
+
+        else if (this.reverse){
+            //System.out.println("this.reverse");
+            int[][] s_copies = new int[(W - N)][s.length];
+		    for (int i = 0; i < W - N + 1; i++) { // we can shift pattern this far
+                for (int j = 0; j < s.length; j ++)
+                    s_copies[i][j] = s[j];
+                s_copies[i][level] = i;
+            }
+            return s_copies;
+        }
+
+        return null;
+
 	}
 
     /**
@@ -212,6 +241,7 @@ public class Alignment {
 	 */
 
     public AlignmentScore findAlignment(int[] s) {
+
         perf.countFind(); // ********DO NOT REMOVE********//
 
 		int level = getLevel(s); 	// Will be 0 first call when the s[0] == -1
@@ -231,7 +261,7 @@ public class Alignment {
         }
 
 		if (level == s.length) { // At leaf node
-			perf.countLeaf(); // ********DO NOT REMOVE********//
+            perf.countLeaf(); // ********DO NOT REMOVE********//
 			return current;
 		}
 
@@ -261,7 +291,8 @@ public class Alignment {
 			}
 		}
 		perf.countPropagate(); // ********DO NOT REMOVE********//
-		return bestScore;
+
+        return bestScore;
 	}
 
 	/**
