@@ -17,7 +17,7 @@ public class Alignment {
 
 	/**
 	 * Construct an alignment from a list of DNA sequences.
-	 * 
+	 *
 	 * @param perf
 	 *            performance meter
 	 * @param dna
@@ -40,7 +40,7 @@ public class Alignment {
 	 * Construct an alignment from a list of DNA sequences. Note that these
 	 * sequences can come from either strand and that one or the other may align
 	 * better to the other strings.
-	 * 
+	 *
 	 * @param perf
 	 *            performance meter
 	 * @param dna
@@ -74,7 +74,7 @@ public class Alignment {
 	/**
 	 * Determine the level of search (i.e. number of offset indices that have
 	 * been assigned).
-	 * 
+	 *
 	 * @param s
 	 *            the offset indices in alignment (-1 or end-of-array
 	 *            terminates)
@@ -89,7 +89,7 @@ public class Alignment {
 
 	/**
 	 * Find the symbol with the max count for each column of a profile
-	 * 
+	 *
 	 * @param profile
 	 *            the profile for an alignment
 	 * @return an array with symbol indices, identifying the consensus
@@ -118,7 +118,7 @@ public class Alignment {
 	/**
 	 * Determine the profile (M) of a specified alignment, i.e. the counts of
 	 * each of the four symbols for all of W positions.
-	 * 
+	 *
 	 * @param s
 	 *            the alignment represented by offset indices
 	 * @return the profile
@@ -130,30 +130,25 @@ public class Alignment {
         char nucleotide;
         int nucleotideIdx;
 
-        //if (!this.reverse) {
-           //System.out.println("Normal Sequence");
-            for (int i = 0; i<dna.length; i++) {
-                for (int j=0; j<W;j++) {
-                    int offset = s[i];
-                    if (j-offset >= 0 && j-offset < this.getN()) {
-                        nucleotide = dna[i].getSymbolChar(j - offset, true);
-                        nucleotideIdx = dna[i].getSymbolIndex(j - offset, true);
-                        profile[nucleotideIdx-1][j] +=1;
-                    }
+        for (int i = 0; i<dna.length; i++) {
+            for (int j=0; j<W;j++) {
+                int offset = s[i];
+                if (j-offset >= 0 && j-offset < this.getN()) {
+                    nucleotide = dna[i].getSymbolChar(j - offset, true);
+                    nucleotideIdx = dna[i].getSymbolIndex(j - offset, true);
+                    profile[nucleotideIdx-1][j] +=1;
                 }
             }
-        //}
+        }
 
-        //else {
-        //    System.out.println("Reverse Sequence");
-        //}
+
 
 		return profile;
 	}
 
 	/**
 	 * Determine the score of a consensus given a profile
-	 * 
+	 *
 	 * @param profile
 	 *            the profile of an alignment
 	 * @param consensus
@@ -173,7 +168,7 @@ public class Alignment {
 	 * Given a partial alignment, expand it to all possible alignments
 	 * incorporating one more sequence.
 	 * Note this version does NOT consider the reverse/complementary strand.
-	 * 
+	 *
 	 * @param s
 	 *            the partial alignment (s.length is total number of sequences,
 	 *            -1 marks end)
@@ -181,33 +176,36 @@ public class Alignment {
 	 */
 	public int[][] expand(int[] s) {
 		int level = getLevel(s);
+        int mult;
+
+
+        if (!this.reverse) {
+            mult =1;
+        }
+        else {
+            mult =2;
+        }
+        int[][] s_copies = new int[mult * W - N + 1][s.length];
 
 		if (level == s.length) {
             return null;
         }
-        else if (!this.reverse) {
-            //System.out.println("NOT this.reverse");
-            int[][] s_copies = new int[(W - N + 1)][s.length];
-		    for (int i = 0; i < W - N + 1; i++) { // we can shift pattern this far
+
+        for (int i = 0; i < W - N + 1; i++) { // we can shift pattern this far
+            for (int j = 0; j < s.length; j ++)
+                s_copies[i][j] = s[j];
+            s_copies[i][level] = i;
+        }
+
+        if (this.reverse) {
+		    for (int i = (W-N+1); i < mult * W - N + 1; i++) { // we can shift pattern this far
                 for (int j = 0; j < s.length; j ++)
                     s_copies[i][j] = s[j];
                 s_copies[i][level] = i;
             }
-            return s_copies;
         }
 
-        else if (this.reverse){
-            //System.out.println("this.reverse");
-            int[][] s_copies = new int[(W - N + 1)][s.length];
-		    for (int i = 0; i < W - N + 1; i++) { // we can shift pattern this far
-                for (int j = 0; j < s.length; j ++)
-                    s_copies[i][j] = s[j];
-                s_copies[i][level] = i;
-            }
-            return s_copies;
-        }
-
-        return null;
+        return s_copies;
 
 	}
 
@@ -308,7 +306,7 @@ public class Alignment {
 		/**
 		 * Constructs an instance that combines a distance and the applicable
 		 * offset indices.
-		 * 
+		 *
 		 * @param actual
 		 *            the actual distance
 		 * @param s
