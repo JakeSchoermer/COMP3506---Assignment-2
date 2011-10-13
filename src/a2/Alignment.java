@@ -130,18 +130,26 @@ public class Alignment {
         char nucleotide;
         int nucleotideIdx;
 
-        for (int i = 0; i<dna.length; i++) {
-            for (int j=0; j<W;j++) {
+        //If s[i] >= 0 AND s[i] > W-N, then do getSymbolIndex(j, false)
+        //else, if s[i] >= 0, then do getSymbolIndex(j, true)
+        //You also need to +=1 profile[a-1][j + s[i] - (W - N + 1) (this goes in the first if statement)
+        //In the else if, update profile[a-1][j+s[i]] = profile[a-1][j+s[i]] + 1
+         for (int i = 0; i<dna.length; i++) {
+            for (int j=0; j<N;j++) {
                 int offset = s[i];
-                if (j-offset >= 0 && j-offset < this.getN()) {
-                    nucleotide = dna[i].getSymbolChar(j - offset, true);
-                    nucleotideIdx = dna[i].getSymbolIndex(j - offset, true);
-                    profile[nucleotideIdx-1][j] +=1;
+                if (offset >= 0 && offset > W - this.getN()) {
+                    nucleotideIdx = dna[i].getSymbolIndex(j, false);
+                    profile[nucleotideIdx-1][j+offset - (W-N+1)] = profile[nucleotideIdx-1][offset] + 1;
+                }
+                else if (offset >=0) {
+                    nucleotideIdx = dna[i].getSymbolIndex(j, true);
+                    profile[nucleotideIdx-1][j+s[i]] +=1;
                 }
             }
         }
 
 
+        System.out.println(Arrays.deepToString(profile));
 
 		return profile;
 	}
@@ -185,7 +193,7 @@ public class Alignment {
         else {
             mult =2;
         }
-        int[][] s_copies = new int[mult * W - N + 1][s.length];
+        int[][] s_copies = new int[mult * (W - N + 1)][s.length];
 
 		if (level == s.length) {
             return null;
@@ -198,7 +206,7 @@ public class Alignment {
         }
 
         if (this.reverse) {
-		    for (int i = (W-N+1); i < mult * W - N + 1; i++) { // we can shift pattern this far
+		    for (int i = (W-N+1); i < 2 * (W - N + 1); i++) { // we can shift pattern this far
                 for (int j = 0; j < s.length; j ++)
                     s_copies[i][j] = s[j];
                 s_copies[i][level] = i;
@@ -280,6 +288,7 @@ public class Alignment {
 
 		AlignmentScore bestScore = null;
 		for (int i = 0; i < extensions.length; i++) {
+            int[][] ext_prefix = extensions;
 			AlignmentScore nextScore = findAlignment(extensions[i]);
 			if (nextScore != null) {
 				if (bestScore == null)
