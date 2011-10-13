@@ -198,7 +198,7 @@ public class Alignment {
 
         else if (this.reverse){
             //System.out.println("this.reverse");
-            int[][] s_copies = new int[(W - N)][s.length];
+            int[][] s_copies = new int[(W - N + 1)][s.length];
 		    for (int i = 0; i < W - N + 1; i++) { // we can shift pattern this far
                 for (int j = 0; j < s.length; j ++)
                     s_copies[i][j] = s[j];
