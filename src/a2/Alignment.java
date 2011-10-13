@@ -124,7 +124,6 @@ public class Alignment {
 	 * @return the profile
 	 */
 	public int[][] getProfile(int[] s) {
-        //System.out.println("s.length: "+s.length);
 		int[][] profile = new int[Sequence.alpha.length][W]; //4, 2 * N - 1
 		//Problem 1: Your code here
 
@@ -140,17 +139,14 @@ public class Alignment {
                 int offset = s[i];
                 if (offset >= 0 && offset > W - this.getN()) {
                     nucleotideIdx = dna[i].getSymbolIndex(j, false);
-                    profile[nucleotideIdx-1][j+offset - (W-N+1)] = profile[nucleotideIdx-1][j+offset - (W-N+1)] + 1;
+                    profile[nucleotideIdx-1][j+offset-(W-N+1)] = profile[nucleotideIdx-1][j+offset - (W-N+1)] + 1;
                 }
                 else if (offset >=0) {
                     nucleotideIdx = dna[i].getSymbolIndex(j, true);
-                    profile[nucleotideIdx-1][j+s[i]] +=1;
+                    profile[nucleotideIdx-1][j+offset] +=1;
                 }
             }
         }
-
-
-        //System.out.println(profile.length());
 
 		return profile;
 	}
@@ -194,7 +190,7 @@ public class Alignment {
         else {
             mult =2;
         }
-        int[][] s_copies = new int[mult * (W - N + 10)][s.length];
+        int[][] s_copies = new int[mult * (W - N + 1)][s.length];
 
 		if (level == s.length) {
             return null;
